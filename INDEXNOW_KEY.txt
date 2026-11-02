@@ -1,0 +1,4 @@
+IndexNow key: 8365ad8e837cc30fc43b0b966e117f11
+Key file: https://george-onair.github.io/8365ad8e837cc30fc43b0b966e117f11.txt
+Submit URL format:
+https://api.indexnow.org/indexnow?url=https://george-onair.github.io/&key=8365ad8e837cc30fc43b0b966e117f11

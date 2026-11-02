@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turn a Local Repo into a Claude Code Skill (License Preflight First) | George O&#x27;Nair</title>
+<meta name="description" content="Free local Python preflight checks license signals before you reuse a repo as an Agent Skill. Optional Local Repo to Agent Skill Stubs ($29) scaffolds stubs; SKILL.md stays TODO—not a finished skill.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://a985783.github.io/">
+<style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:0 auto;padding:1.5rem 1rem;line-height:1.6;color:#1a1a1a}h1{font-size:1.8rem;line-height:1.25}h2{margin-top:2rem;border-bottom:1px solid #ddd;padding-bottom:.2rem}a{color:#0b5fff}table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:.92rem}th,td{border:1px solid #ccc;padding:.4rem .6rem;text-align:left;vertical-align:top}th{background:#f4f4f4}code{background:#f2f2f2;padding:.1rem .3rem;border-radius:3px}pre{background:#f2f2f2;padding:.8rem;overflow-x:auto}pre code{padding:0}blockquote{margin:1rem 0;padding:.6rem 1rem;border-left:4px solid #0b5fff;background:#f7f9ff}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "How do you turn a local repo into a Claude Code Agent Skill without hosting an agent?", "description": "Free local Python preflight checks license signals before you reuse a repo as an Agent Skill. Optional Local Repo to Agent Skill Stubs ($29) scaffolds stubs; SKILL.md stays TODO—not a finished skill.", "url": "https://a985783.github.io/", "inLanguage": "en", "dateModified": "2026-11-02", "author": {"@type": "Person", "name": "George O'Nair"}, "publisher": {"@type": "Person", "name": "George O'Nair"}}</script>
+</head>
+<body>
+<main>
+<h1>How do you turn a local repo into a Claude Code Agent Skill without hosting an agent?</h1>
+<p>Pasting a repository into ChatGPT or Claude can answer one question. It does not leave you with a reusable <strong>Agent Skill</strong> you can load again in Claude Code or Cursor.</p>
+<p>This page is the practical path when the repo already exists on disk: run a <strong>free local Python preflight</strong> for license signals and boundaries, then—only if the check passes—scaffold stubs with <strong>Local Repo to Agent Skill Stubs</strong> ($29 one-time) and fill <code>SKILL.md</code> yourself. No hosted agent. No pull requests opened for you. No finished skill written for you.</p>
+<blockquote>
+<p><strong>Quotable (first screen)</strong><br />
+Pasting a repository into a chat can answer one question. It does not leave a reusable Agent Skill with a clear license boundary. An agent workflow from <strong>George O'Nair</strong> (Field Lab) starts on a local repo you are authorized to read. Run the free local Python preflight for license signals and boundary fit—it does not clone your repo, does not generate a skill, and it is not legal advice: <a href="https://github.com/george-onair/claude-code-skills/tree/main/plugins/starter/skills/repo-distillation-preflight">repo-distillation-preflight</a>. Then, only if that check passes, see <a href="https://george-onair.whop.site/workflows/agents">Turn a local repo into an Agent Skill</a>. <strong>Local Repo to Agent Skill Stubs</strong> ($29 one-time) scaffolds stubs; <code>SKILL.md</code> stays TODO; it is not a finished skill: <a href="https://george-onair.whop.site/shop/agentic-distiller">product page</a>. The product does not host the agent, open pull requests, or override a stop verdict.</p>
+</blockquote>
+<h2>Chat paste ≠ Agent Skill</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Chat paste</th>
+<th>Agent Skill path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lifespan</td>
+<td>One thread</td>
+<td>Load again next week</td>
+</tr>
+<tr>
+<td>License / boundary check</td>
+<td>Usually none</td>
+<td>Preflight first</td>
+</tr>
+<tr>
+<td>Output shape</td>
+<td>Prose in the chat</td>
+<td>Stubs you fill (<code>SKILL.md</code> TODO until you do)</td>
+</tr>
+<tr>
+<td>Who runs it</td>
+<td>The chat host</td>
+<td>You, locally</td>
+</tr>
+</tbody>
+</table>
+<p>If you only need a one-off explanation of a file, stay in chat. If you want the agent to reuse the same boundaries on that codebase, you need a skill path—and the free step is a fit check, not a generator.</p>
+<h2>Step 1 — Free local Python preflight (license gate first)</h2>
+<p>Start with a git checkout <strong>you are allowed to read</strong>.</p>
+<p>Run the free preflight:</p>
+<p><strong><a href="https://github.com/george-onair/claude-code-skills/tree/main/plugins/starter/skills/repo-distillation-preflight">repo-distillation-preflight</a></strong></p>
+<p>From the skill directory:</p>
+<pre><code class="language-bash">python3 scripts/audit_repo_for_distillation.py --repo /absolute/path/to/repository
+</code></pre>
+<p>Hard boundaries (read them twice):</p>
+<ol>
+<li><strong>Local Python</strong> — inspects license signals and boundary cues on your machine (Python 3.9+, stdlib only).</li>
+<li><strong>Does not clone</strong> — point it at a checkout you already have; it will not fetch a remote for you.</li>
+<li><strong>Does not generate a skill</strong> — fit check only; free preflight never emits a skill.</li>
+<li><strong>Not legal advice</strong> — signals and boundaries for a fit decision; it does not replace counsel.</li>
+</ol>
+<h3>How to read the verdict</h3>
+<table>
+<thead>
+<tr>
+<th><code>distillation_verdict</code></th>
+<th>Meaning</th>
+<th>Next action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DISTILL</code></td>
+<td>Recognized permissive license signal (e.g. MIT, Apache-2.0, BSD, ISC, including SPDX)</td>
+<td>Still check provenance, notices, file-level exceptions, and your authorization. Write a decision record.</td>
+</tr>
+<tr>
+<td><code>INTERNAL_ONLY</code></td>
+<td>Copyleft, source-available, or non-commercial terms (GPL, LGPL, AGPL, MPL, SSPL, RSALv2, BUSL/BSL, Commons Clause, PolyForm, CC-BY-NC)</td>
+<td>Do not package derived material as a commercial skill. Keep internal or get qualified legal guidance.</td>
+</tr>
+<tr>
+<td><code>NEEDS_REVIEW</code></td>
+<td>Missing/unknown license or incomplete evidence</td>
+<td>Stop. Locate the authoritative license before continuing.</td>
+</tr>
+<tr>
+<td><code>BLOCKED</code></td>
+<td>Path is not a directory</td>
+<td>Correct <code>--repo</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Detection is <strong>fail-closed</strong>: restricted terms outrank permissive mentions in the same document. <code>DISTILL</code> is a license signal, not quality approval, provenance clearance, or permission to ship a commercial skill.</p>
+<p>If the preflight says the repo is out of bounds, <strong>stop</strong>. Do not pay to paper over a bad fit.</p>
+<h2>Step 2 — Optional stubs pack (only after <code>DISTILL</code> + decision record)</h2>
+<p>When—and only when—the verdict is <code>DISTILL</code> and your decision record still says go, <strong>Local Repo to Agent Skill Stubs</strong> ($29 one-time) scaffolds <strong>stubs</strong>. <strong><code>SKILL.md</code> stays TODO.</strong> That is <strong>not a finished skill</strong>.</p>
+<ul>
+<li>Scaffolds stubs; you fill the content</li>
+<li>Frontmatter check on what you keep</li>
+<li>Local CLI you run yourself — not a hosted agent</li>
+</ul>
+<p>Shorter workflow overview: <a href="https://george-onair.whop.site/workflows/agents">Turn a local repo into an Agent Skill</a></p>
+<p>Product page: <a href="https://george-onair.whop.site/shop/agentic-distiller">Local Repo to Agent Skill Stubs</a></p>
+<p>The pack still does <strong>not</strong> host an agent, open PRs, or override a stop verdict. If preflight said stop, do not buy stubs to ignore that verdict.</p>
+<h2>Step 3 — Fill, install, and run locally</h2>
+<p>Fill <code>SKILL.md</code>, then load the skill in Claude Code, Cursor, or a similar coding agent on your machine. Marketplace discovery and listing rules belong to those tools; this workflow scaffolds a local stub—it does not claim an official Anthropic or Cursor partnership.</p>
+<p>You run it. The pack does not host the agent for you.</p>
+<h2>Who this is for</h2>
+<ul>
+<li>Builders wiring Claude Code, Cursor, or Windsurf into an existing codebase</li>
+<li>Developers who want checkable stubs from a local repo they are authorized to read</li>
+<li>People who will fill <code>SKILL.md</code> and rerun that skill, not ask one chat question</li>
+</ul>
+<h2>Who should skip this</h2>
+<ul>
+<li>Anyone hunting for meeting slides / PowerPoint packs after a call (wrong product line)</li>
+<li>Buyers who want a hosted chatbot with no local project</li>
+<li>People who cannot run a local Python tool</li>
+<li>Anyone who expects the free preflight to clone remotes or emit a finished skill</li>
+<li>Anyone who expects the $29 pack to finish <code>SKILL.md</code></li>
+<li>Anyone who needs formal legal review of licensing</li>
+</ul>
+<h2>Suggested order (do not skip the free step)</h2>
+<ol>
+<li>Local authorized checkout</li>
+<li>Free preflight (<a href="https://github.com/george-onair/claude-code-skills/tree/main/plugins/starter/skills/repo-distillation-preflight">repo-distillation-preflight</a>)</li>
+<li>Read license signals / boundaries — stop if out of bounds</li>
+<li>Workflow overview: <a href="https://george-onair.whop.site/workflows/agents">Turn a local repo into an Agent Skill</a></li>
+<li><a href="https://george-onair.whop.site/shop/agentic-distiller">Local Repo to Agent Skill Stubs, $29</a> — scaffolds stubs; <code>SKILL.md</code> stays TODO; not a finished skill</li>
+<li>Fill the stub, install in Claude Code / Cursor, and run it yourself</li>
+</ol>
+<p>Try the free preflight before you buy. If the fit check fails, you saved $29 and a week of thrash.</p>
+<h2>FAQ</h2>
+<p><strong>Does the free tool build the skill?</strong><br />
+No. Local Python preflight only. No clone, no skill output, not legal advice.</p>
+<p><strong>What does $29 buy?</strong><br />
+<strong>Local Repo to Agent Skill Stubs</strong> scaffolds stubs; <code>SKILL.md</code> stays TODO. Not a finished skill. Not a hosted agent. Does not override a stop verdict.</p>
+<p><strong>Will this edit my app repo?</strong><br />
+No. It reads a local path and writes skill stub output elsewhere. No clone, no PRs, no app changes from the pack.</p>
+<p><strong>Claude Code and Cursor?</strong><br />
+You install whatever you keep, yourself, in Claude Code or Cursor. The pack does not claim those runtimes were independently verified for every host version.</p>
+<hr />
+<p><em>Brand: George O'Nair / Field Lab. Free preflight is MIT-licensed tooling in the public starter repo; that license applies to the tooling, not to the repository you audit.</em></p>
+</main>
+</body>
+</html>
